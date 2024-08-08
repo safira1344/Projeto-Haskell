@@ -1,25 +1,28 @@
 module Calculadora where
 
-data Operacao = Soma | Subtracao | Multiplicacao | Divisao
-    deriving (Show, Eq)
-
-calcular :: Operacao -> Double -> Double -> Double
-calcular Soma x y = x + y
-calcular Subtracao x y = x - y
-calcular Multiplicacao x y = x * y
-calcular Divisao x y 
-    | y /= 0 = x / y
-    | otherwise = error "Divisao por zero não é permitida"
+descontoINSS :: Double -> Double
+descontoINSS x
+  | x < 1412 = x * 0.075
+  | x < 2666.69 = x * 0.09
+  | x < 4000.02 = x * 0.12
+  | otherwise = x * 0.14
 
 
 -- fazer o calculo pra colocar a porcentagem na taxa 
 jurosSimples :: Double -> Double -> Int -> Double
 jurosSimples valorInicial taxa tempo = valorInicial * (taxa/100) * fromIntegral(tempo)
 
+-- Cálculo de juros compostos com função de alta ordem
+-- iterate aplica a função \x
+-- jurosCompostos :: Double -> Double -> Int -> Double
+-- jurosCompostos capital taxa n = (iterate (\x -> x * (1 + taxa)) capital) !! n
 
-jurosCompostos :: Double -> Double -> Int -> Double
-jurosCompostos capital _ 0 = capital
-jurosCompostos capital taxa n = jurosCompostos(capital * (1 + taxa)) taxa (n-1)
+jurosCompostos :: Double -> Double -> Double -> Int -> Double
+jurosCompostos valorInicial valorMensal taxaJuros periodo = calcularMes valorInicial periodo
+  where
+    taxaMensal = taxaJuros / 100
+    calcularMes montante 0 = montante
+    calcularMes montante n = calcularMes (montante * (1 + taxaMensal) + valorMensal) (n - 1)
 
 --TODO fazer a taxa de juros que precisa para alcançar determinado valor de juros em um período específico
 
@@ -56,8 +59,8 @@ data CalculadoraSELIC = CalculadoraSELIC
 
 
 instance CalculadoraRendimento CalculadoraSELIC where
-  calcularRendimento CalculadoraSELIC (ParametrosRendimento capital taxa _ periodos) =
-    jurosCompostos capital taxa periodos
+  calcularRendimento CalculadoraSELIC (ParametrosRendimento valorInicial taxa depositoMensal numeroMesesRendimento) =
+    jurosCompostos valorInicial depositoMensal taxa numeroMesesRendimento
 
 
 -- Função para calcular a prestação do financiamento utilizando a fórmula Price com guardas
@@ -68,6 +71,7 @@ simuladorFinanciamento (ParametrosFinanciamento capital taxa periodos)
   | periodos <= 0 = ResultadoSimulacao 0 "O número de meses deve ser positivo."
   | otherwise = 
       let i = taxa / 12  -- Taxa mensal
+          n :: Double
           n = fromIntegral periodos
           prestacao = capital * i / (1 - (1 + i) ** (-n))
       in ResultadoSimulacao prestacao "Prestação mensal calculada utilizando a fórmula Price"
