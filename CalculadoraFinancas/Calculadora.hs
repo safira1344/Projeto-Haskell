@@ -13,7 +13,8 @@ jurosSimples :: Double -> Double -> Int -> Double
 jurosSimples valorInicial taxa tempo = valorInicial * (taxa/100) * fromIntegral(tempo)
 
 -- Cálculo de juros compostos com função de alta ordem
--- iterate aplica a função \x
+-- iterate aplica a função \x -> x * (1 + taxa) repetidamente ao valor inicial capital. 
+-- o operador !! é usado para extrair o n-ésimo elemento da lista resultante
 -- jurosCompostos :: Double -> Double -> Int -> Double
 -- jurosCompostos capital taxa n = (iterate (\x -> x * (1 + taxa)) capital) !! n
 
