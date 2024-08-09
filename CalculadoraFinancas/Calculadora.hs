@@ -1,11 +1,11 @@
 module Calculadora where
 
 descontoINSS :: Double -> Double
-descontoINSS x
-  | x < 1412 = x * 0.075
-  | x < 2666.69 = x * 0.09
-  | x < 4000.02 = x * 0.12
-  | otherwise = x * 0.14
+descontoINSS salario
+  | salario <= 1412 = salario * 0.075
+  | salario <= 2666.68 = 105.90 + (salario - 1412.00) * 0.09
+  | salario <= 4000.03 = 218.82 + (salario - 2666.69) * 0.12
+  | otherwise = 378.82 + (salario - 4000.04) * 0.14
 
 
 -- fazer o calculo pra colocar a porcentagem na taxa 
