@@ -16,13 +16,14 @@ lerInteiro = do
 menu :: IO ()
 menu = do
   putStrLn "=== Calculadora de Finanças ==="
-  putStrLn "1. Calcular Desconto INSS"
+  putStrLn "1. Calcular Desconto INSS"putStrLn "1. Calcular Desconto INSS"
   putStrLn "2. Calcular Juros Simples"
   putStrLn "3. Calcular Juros Compostos"
   putStrLn "4. Simulador de Financiamento"
   putStrLn "5. Simulador de Rendimento"
   putStrLn "6. Projeção de Rendimento Anual"
   putStrLn "7. Calculadora SELIC"
+  putStrLn "8. Calculadora SELIC"
   putStrLn "8. Sair"
   putStrLn "Escolha uma opção: "
   escolha <- getLine
@@ -49,6 +50,18 @@ calcularDescontoINSS = do
   putStrLn ("Desconto INSS: " ++ show desconto)
   putStrLn ("Salário líquido: " ++ show (salario - desconto))
 
+      menu
+
+calcularDescontoINSS :: IO ()
+calcularDescontoINSS = do
+  putStrLn "--- Calcular Desconto INSS ---"
+  putStrLn "Digite o salário bruto: "
+  salario <- lerNumero
+  let desconto = descontoINSS salario
+  putStrLn ("Desconto INSS: " ++ show desconto)
+  putStrLn ("Salário líquido: " ++ show (salario - desconto))
+
+  menu
   menu
 
 calcularJurosSimples :: IO ()

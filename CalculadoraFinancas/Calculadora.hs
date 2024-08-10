@@ -7,7 +7,6 @@ descontoINSS salario
   | salario <= 4000.03 = 218.82 + (salario - 2666.69) * 0.12
   | otherwise = 378.82 + (salario - 4000.04) * 0.14
 
-
 -- fazer o calculo pra colocar a porcentagem na taxa 
 jurosSimples :: Double -> Double -> Int -> Double
 jurosSimples valorInicial taxa tempo = valorInicial * (taxa/100) * fromIntegral(tempo)
@@ -25,7 +24,6 @@ jurosCompostosAnual valorInicial valorMensal taxaJuros periodo = calcularMes val
     taxaMensal = (taxaJuros / 100) / 12
     calcularMes montante 0 = montante
     calcularMes montante n = calcularMes (montante * (1 + taxaMensal) + valorMensal) (n - 1)
-
 
 -- Tipo algébrico para os parâmetros de um financiamento
 data ParametrosFinanciamento = ParametrosFinanciamento
@@ -50,7 +48,6 @@ data ResultadoSimulacao = ResultadoSimulacao
   { valorFinal :: Double
   , detalheSimulacao :: String
   } deriving (Show)
-
 
 -- Classe polimórfica para calculadora de rendimento
 class CalculadoraRendimento a where
