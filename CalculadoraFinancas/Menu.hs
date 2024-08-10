@@ -16,7 +16,7 @@ lerInteiro = do
 menu :: IO ()
 menu = do
   putStrLn "=== Calculadora de Finanças ==="
-  putStrLn "1. Calcular Desconto INSS"putStrLn "1. Calcular Desconto INSS"
+  putStrLn "1. Calcular Desconto INSS"
   putStrLn "2. Calcular Juros Simples"
   putStrLn "3. Calcular Juros Compostos"
   putStrLn "4. Simulador de Financiamento"
@@ -50,7 +50,7 @@ calcularDescontoINSS = do
   putStrLn ("Desconto INSS: " ++ show desconto)
   putStrLn ("Salário líquido: " ++ show (salario - desconto))
 
-      menu
+  menu
 
 calcularDescontoINSS :: IO ()
 calcularDescontoINSS = do
@@ -61,7 +61,6 @@ calcularDescontoINSS = do
   putStrLn ("Desconto INSS: " ++ show desconto)
   putStrLn ("Salário líquido: " ++ show (salario - desconto))
 
-  menu
   menu
 
 calcularJurosSimples :: IO ()
