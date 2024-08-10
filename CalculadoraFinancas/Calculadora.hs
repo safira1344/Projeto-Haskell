@@ -7,7 +7,6 @@ descontoINSS salario
   | salario <= 4000.03 = 218.82 + (salario - 2666.69) * 0.12
   | otherwise = 378.82 + (salario - 4000.04) * 0.14
 
-
 -- fazer o calculo pra colocar a porcentagem na taxa 
 jurosSimples :: Double -> Double -> Int -> Double
 jurosSimples valorInicial taxa tempo = valorInicial * (taxa/100) * fromIntegral(tempo)
@@ -19,6 +18,12 @@ jurosCompostos valorInicial valorMensal taxaJuros periodo = calcularMes valorIni
     calcularMes montante 0 = montante
     calcularMes montante n = calcularMes (montante * (1 + taxaMensal) + valorMensal) (n - 1)
 
+jurosCompostosAnual :: Double -> Double -> Double -> Int -> Double
+jurosCompostosAnual valorInicial valorMensal taxaJuros periodo = calcularMes valorInicial periodo
+  where
+    taxaMensal = (taxaJuros / 100) / 12
+    calcularMes montante 0 = montante
+    calcularMes montante n = calcularMes (montante * (1 + taxaMensal) + valorMensal) (n - 1)
 
 -- Tipo algébrico para os parâmetros de um financiamento
 data ParametrosFinanciamento = ParametrosFinanciamento
@@ -43,7 +48,6 @@ data ResultadoSimulacao = ResultadoSimulacao
   , detalheSimulacao :: String
   } deriving (Show)
 
-
 -- Classe polimórfica para calculadora de rendimento
 class CalculadoraRendimento a where
   calcularRendimento :: a -> ParametrosRendimento -> Double
@@ -51,11 +55,9 @@ class CalculadoraRendimento a where
 -- Instância específica para cálculo de rendimento com SELIC
 data CalculadoraSELIC = CalculadoraSELIC
 
-
 instance CalculadoraRendimento CalculadoraSELIC where
-  calcularRendimento CalculadoraSELIC (ParametrosRendimento valorInicial taxa depositoMensal numeroMesesRendimento) =
-    jurosCompostos valorInicial depositoMensal taxa numeroMesesRendimento
-
+  calcularRendimento CalculadoraSELIC (ParametrosRendimento valorInicial taxaAnual depositoMensal numeroAnos) =
+    jurosCompostosAnual valorInicial depositoMensal taxaAnual (numeroAnos * 12)
 
 -- Função para calcular a prestação do financiamento utilizando a fórmula Price com guardas
 simuladorFinanciamento :: ParametrosFinanciamento -> ResultadoSimulacao

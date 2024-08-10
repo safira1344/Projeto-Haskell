@@ -16,27 +16,40 @@ lerInteiro = do
 menu :: IO ()
 menu = do
   putStrLn "=== Calculadora de Finanças ==="
-  
+  putStrLn "1. Calcular Desconto INSS"
   putStrLn "2. Calcular Juros Simples"
   putStrLn "3. Calcular Juros Compostos"
   putStrLn "4. Simulador de Financiamento"
   putStrLn "5. Simulador de Rendimento"
   putStrLn "6. Projeção de Rendimento Anual"
-  putStrLn "7. Sair"
+  putStrLn "7. Calculadora SELIC"
+  putStrLn "8. Sair"
   putStrLn "Escolha uma opção: "
   escolha <- getLine
   case escolha of
-    
+    "1" -> calcularDescontoINSS
     "2" -> calcularJurosSimples
     "3" -> calcularJurosCompostos
     "4" -> simuladorDeFinanciamento
     "5" -> simuladorDeRendimento
     "6" -> projecaoDeRendimentoAnual
-    "7" -> putStrLn "Saindo..."
+    "7" -> calcularSelicDiaria
+    "8" -> putStrLn "Saindo..."
     _   -> do
       putStrLn "Opção inválida!"
 
       menu
+
+calcularDescontoINSS :: IO ()
+calcularDescontoINSS = do
+  putStrLn "--- Calcular Desconto INSS ---"
+  putStrLn "Digite o salário bruto: "
+  salario <- lerNumero
+  let desconto = descontoINSS salario
+  putStrLn ("Desconto INSS: " ++ show desconto)
+  putStrLn ("Salário líquido: " ++ show (salario - desconto))
+
+  menu
 
 calcularJurosSimples :: IO ()
 calcularJurosSimples = do
@@ -121,5 +134,24 @@ projecaoDeRendimentoAnual = do
   let projecoes = projecaoRendimentoAnual parametros
   putStrLn "Projeção de Rendimento Anual:"
   mapM_ (\(mes, valor) -> putStrLn ("Mês " ++ show mes ++ ": " ++ show valor)) projecoes
+
+  menu
+
+calcularSelicDiaria :: IO ()
+calcularSelicDiaria = do
+  putStrLn "--- Cálculo de Rendimento com Selic Diária ---"
+  
+  putStrLn "Digite o valor inicial: "
+  valorInicial <- lerNumero
+  putStrLn "Digite a taxa Selic anual (em decimal): "
+  taxaSelicAnual <- lerNumero
+  putStrLn "Digite a contribuição mensal: "
+  depositoMensal <- lerNumero
+  putStrLn "Digite o número de anos: "
+  anos <- lerInteiro
+
+  let parametros = ParametrosRendimento valorInicial taxaSelicAnual depositoMensal anos
+  let rendimento = calcularRendimento CalculadoraSELIC parametros
+  putStrLn ("Valor final após " ++ show anos ++ " anos: " ++ show rendimento)
 
   menu
