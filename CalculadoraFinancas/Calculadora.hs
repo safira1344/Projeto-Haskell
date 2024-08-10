@@ -58,7 +58,6 @@ class CalculadoraRendimento a where
 -- Instância específica para cálculo de rendimento com SELIC
 data CalculadoraSELIC = CalculadoraSELIC
 
-
 instance CalculadoraRendimento CalculadoraSELIC where
   calcularRendimento CalculadoraSELIC (ParametrosRendimento valorInicial taxaAnual depositoMensal numeroAnos) =
     jurosCompostosAnual valorInicial depositoMensal taxaAnual (numeroAnos * 12)
