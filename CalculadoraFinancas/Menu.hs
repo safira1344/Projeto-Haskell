@@ -23,7 +23,6 @@ menu = do
   putStrLn "5. Simulador de Rendimento"
   putStrLn "6. Projeção de Rendimento Anual"
   putStrLn "7. Calculadora SELIC"
-  putStrLn "8. Calculadora SELIC"
   putStrLn "8. Sair"
   putStrLn "Escolha uma opção: "
   escolha <- getLine
@@ -155,10 +154,10 @@ calcularSELIC = do
   let rendimento = calcularRendimento CalculadoraSELIC parametros
 
   case anos of
-    a | a <= 0.5 -> putStrLn ("Valor final após " ++ show anos ++ " anos: " ++ show (((rendimento - valorInicial) * 0.775) + valorInicial))
-    a | a <= 1 -> putStrLn ("Valor final após " ++ show anos ++ " anos: " ++ show (((rendimento - valorInicial) * 0.8) + valorInicial))
-    a | a <= 2 -> putStrLn ("Valor final após " ++ show anos ++ " anos: " ++ show (((rendimento - valorInicial) * 0.825) + valorInicial))
-    a | a >= 3 -> putStrLn ("Valor final após " ++ show anos ++ " anos: " ++ show (((rendimento - valorInicial) * 0.85) + valorInicial))
+    a | a <= 0.5 -> putStrLn ("Valor final após " ++ show a ++ " anos: " ++ show (((rendimento - valorInicial) * 0.775) + valorInicial))
+    a | a <= 1 -> putStrLn ("Valor final após " ++ show a ++ " anos: " ++ show (((rendimento - valorInicial) * 0.8) + valorInicial))
+    a | a <= 2 -> putStrLn ("Valor final após " ++ show a ++ " anos: " ++ show (((rendimento - valorInicial) * 0.825) + valorInicial))
+    a | a > 2 -> putStrLn ("Valor final após " ++ show a ++ " anos: " ++ show (((rendimento - valorInicial) * 0.85) + valorInicial))
     _ -> putStrLn ("Número de anos inválido")
 
   menu
