@@ -52,17 +52,6 @@ calcularDescontoINSS = do
 
   menu
 
-calcularDescontoINSS :: IO ()
-calcularDescontoINSS = do
-  putStrLn "--- Calcular Desconto INSS ---"
-  putStrLn "Digite o salário bruto: "
-  salario <- lerNumero
-  let desconto = descontoINSS salario
-  putStrLn ("Desconto INSS: " ++ show desconto)
-  putStrLn ("Salário líquido: " ++ show (salario - desconto))
-
-  menu
-
 calcularJurosSimples :: IO ()
 calcularJurosSimples = do
   putStrLn "--- Juros Simples ---"
@@ -166,10 +155,10 @@ calcularSELIC = do
   let rendimento = calcularRendimento CalculadoraSELIC parametros
 
   case anos of
-    a | a <= 0.5 -> putStrLn ("Valor final após " ++ show anos ++ " anos: " ++ show (rendimento * 0.775))
-    a | a <= 1 -> putStrLn ("Valor final após " ++ show anos ++ " anos: " ++ show (rendimento * 0.8))
-    a | a <= 2 -> putStrLn ("Valor final após " ++ show anos ++ " anos: " ++ show (rendimento * 0.825))
-    a | a >= 3 -> putStrLn ("Valor final após " ++ show anos ++ " anos: " ++ show (rendimento * 0.85))
+    a | a <= 0.5 -> putStrLn ("Valor final após " ++ show anos ++ " anos: " ++ show (((rendimento - valorInicial) * 0.775) + valorInicial))
+    a | a <= 1 -> putStrLn ("Valor final após " ++ show anos ++ " anos: " ++ show (((rendimento - valorInicial) * 0.8) + valorInicial))
+    a | a <= 2 -> putStrLn ("Valor final após " ++ show anos ++ " anos: " ++ show (((rendimento - valorInicial) * 0.825) + valorInicial))
+    a | a >= 3 -> putStrLn ("Valor final após " ++ show anos ++ " anos: " ++ show (((rendimento - valorInicial) * 0.85) + valorInicial))
     _ -> putStrLn ("Número de anos inválido")
 
   menu
