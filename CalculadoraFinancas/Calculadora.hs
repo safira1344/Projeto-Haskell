@@ -59,6 +59,7 @@ instance CalculadoraRendimento CalculadoraSELIC where
   calcularRendimento CalculadoraSELIC (ParametrosRendimento valorInicial taxaAnual depositoMensal numeroAnos) =
     jurosCompostosAnual valorInicial depositoMensal taxaAnual (numeroAnos * 12)
 
+
 -- Função para calcular a prestação do financiamento utilizando a fórmula Price com guardas
 simuladorFinanciamento :: ParametrosFinanciamento -> ResultadoSimulacao
 simuladorFinanciamento (ParametrosFinanciamento capital taxa periodos)
