@@ -19,7 +19,7 @@ jurosCompostos valorInicial valorMensal taxaJuros periodo = calcularMes valorIni
     calcularMes montante 0 = montante
     calcularMes montante n = calcularMes (montante * (1 + taxaMensal) + valorMensal) (n - 1)
 
-jurosCompostosAnual :: Double -> Double -> Double -> Int -> Double
+jurosCompostosAnual :: Double -> Double -> Double -> Double -> Double
 jurosCompostosAnual valorInicial valorMensal taxaJuros periodo = calcularMes valorInicial periodo
   where
     taxaMensal = (taxaJuros / 100) / 12
@@ -41,6 +41,7 @@ data ParametrosRendimento = ParametrosRendimento
   , taxaRendimentoAnual :: Double
   , depositoMensal :: Double
   , numeroMesesRendimento :: Int
+  , numeroAnosRendimento :: Double
   } deriving (Show)
 
 
@@ -59,7 +60,7 @@ class CalculadoraRendimento a where
 data CalculadoraSELIC = CalculadoraSELIC
 
 instance CalculadoraRendimento CalculadoraSELIC where
-  calcularRendimento CalculadoraSELIC (ParametrosRendimento valorInicial taxaAnual depositoMensal numeroAnos) =
+  calcularRendimento CalculadoraSELIC (ParametrosRendimento valorInicial taxaAnual depositoMensal _ numeroAnos) =
     jurosCompostosAnual valorInicial depositoMensal taxaAnual (numeroAnos * 12)
 
 
@@ -78,7 +79,7 @@ simuladorFinanciamento (ParametrosFinanciamento capital taxa periodos)
 
 -- Função para calcular o rendimento com contribuições regulares com guardas
 simuladorRendimento :: ParametrosRendimento -> ResultadoSimulacao
-simuladorRendimento (ParametrosRendimento capital taxa contribuicaoMensal periodos)
+simuladorRendimento (ParametrosRendimento capital taxa contribuicaoMensal periodos _)
   | capital < 0 = ResultadoSimulacao 0 "O valor inicial deve ser não-negativo."
   | taxa < 0 = ResultadoSimulacao 0 "A taxa de rendimento deve ser não-negativa."
   | contribuicaoMensal < 0 = ResultadoSimulacao 0 "A contribuição mensal deve ser não-negativa."
@@ -92,7 +93,7 @@ simuladorRendimento (ParametrosRendimento capital taxa contribuicaoMensal period
 
 -- Função para projetar o rendimento mensal ao longo de um ano com guardas
 projecaoRendimentoAnual :: ParametrosRendimento -> [(Int, Double)]
-projecaoRendimentoAnual (ParametrosRendimento capital taxa contribuicaoMensal periodos)
+projecaoRendimentoAnual (ParametrosRendimento capital taxa contribuicaoMensal periodos _)
   | capital < 0 = error "O valor inicial deve ser não-negativo."
   | taxa < 0 = error "A taxa de rendimento deve ser não-negativa."
   | contribuicaoMensal < 0 = error "A contribuição mensal deve ser não-negativa."
