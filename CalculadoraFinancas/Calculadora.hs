@@ -19,6 +19,13 @@ jurosCompostos valorInicial valorMensal taxaJuros periodo = calcularMes valorIni
     calcularMes montante 0 = montante
     calcularMes montante n = calcularMes (montante * (1 + taxaMensal) + valorMensal) (n - 1)
 
+jurosCompostosAnual :: Double -> Double -> Double -> Int -> Double
+jurosCompostosAnual valorInicial valorMensal taxaJuros periodo = calcularMes valorInicial periodo
+  where
+    taxaMensal = (taxaJuros / 100) / 12
+    calcularMes montante 0 = montante
+    calcularMes montante n = calcularMes (montante * (1 + taxaMensal) + valorMensal) (n - 1)
+
 
 -- Tipo algébrico para os parâmetros de um financiamento
 data ParametrosFinanciamento = ParametrosFinanciamento
@@ -53,8 +60,8 @@ data CalculadoraSELIC = CalculadoraSELIC
 
 
 instance CalculadoraRendimento CalculadoraSELIC where
-  calcularRendimento CalculadoraSELIC (ParametrosRendimento valorInicial taxa depositoMensal numeroMesesRendimento) =
-    jurosCompostos valorInicial depositoMensal taxa numeroMesesRendimento
+  calcularRendimento CalculadoraSELIC (ParametrosRendimento valorInicial taxaAnual depositoMensal numeroAnos) =
+    jurosCompostosAnual valorInicial depositoMensal taxaAnual (numeroAnos * 12)
 
 
 -- Função para calcular a prestação do financiamento utilizando a fórmula Price com guardas
